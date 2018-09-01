@@ -29,6 +29,12 @@ DO NOT MODIFY
 @return boolean;
 */
 exports.isValidXML = xmlString => {
+  if (xmlString === "<a><a></a></a>") {
+    console.log(
+      "==========================current case========================="
+    );
+  }
+
   if (xmlString.length === 0) {
     // Case where xml string is empty string
     return false;
@@ -39,8 +45,33 @@ exports.isValidXML = xmlString => {
   // Wrap XML string with a tag be
   const wrappedXmlString = `<tempouterwrapper>${xmlString}</tempouterwrapper>`;
   // Store returned xml document as result
-  const result = parser.parseFromString(wrappedXmlString, "text/xml");
+  const xmlDom = parser.parseFromString(wrappedXmlString, "text/xml");
+  const topNode = xmlDom.documentElement;
 
-  return result.documentElement.nodeName == "parsererror" ? false : true;
-  // TODO: FILL ME
+  if (topNode.nodeName === "parsererror") {
+    // Case where there was a universal error in xml string
+    return false;
+  }
+
+  const recurseNode = (node, parentNode, depth) => {
+    console.log("calls recurse on: ", node.nodeName, node.childNodes.length);
+    for (let i = 0; i < node.childNodes.length; i++) {
+      console.log("nodenames: ", parentNode.nodeName, node.nodeName);
+      if (depth > 2) {
+        //Case more that 2 depth deep
+        return false;
+      }
+      if (equalTag(parentNode, node)) {
+        return false;
+      }
+
+      return recurseNode(node.childNodes[i], node, depth + 1);
+    }
+
+    return true;
+  };
+
+  const equalTag = (one, two) => one.nodeName === two.nodeName;
+
+  return recurseNode(topNode, { nodeName: "fakeparent" }, 0);
 };
