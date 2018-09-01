@@ -29,7 +29,7 @@ DO NOT MODIFY
 @return boolean;
 */
 exports.isValidXML = xmlString => {
-  if (xmlString.length === 0) {
+  if (typeof xmlString !== "string" || xmlString.length === 0) {
     // Case where xml string is empty string
     return false;
   }

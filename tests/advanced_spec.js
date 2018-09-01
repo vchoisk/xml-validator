@@ -23,7 +23,13 @@ describe("advanced validator test", () => {
 
   it("should return false for non-string input", () => {
     expect(isValidXML(123)).toBeFalsy();
+    expect(isValidXML(123.1)).toBeFalsy();
     expect(isValidXML(null)).toBeFalsy();
+    expect(isValidXML(undefined)).toBeFalsy();
+    expect(isValidXML(true)).toBeFalsy();
+    expect(isValidXML(false)).toBeFalsy();
+    expect(isValidXML({})).toBeFalsy();
+    expect(isValidXML([])).toBeFalsy();
   });
 
   it("should return false for an xml with child nodes, one of which has same tag as its parent", () => {
