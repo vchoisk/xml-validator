@@ -36,13 +36,10 @@ exports.isValidXML = xmlString => {
 
   // Initialize xml string parser
   const parser = new DOMParser();
+  // Wrap XML string with a tag be
+  const wrappedXmlString = `<tempouterwrapper>${xmlString}</tempouterwrapper>`;
   // Store returned xml document as result
-  const result = parser.parseFromString(xmlString, "text/xml");
-  console.log(
-    result.documentElement.nodeName == "parsererror"
-      ? "error while parsing"
-      : result.documentElement.nodeName
-  );
+  const result = parser.parseFromString(wrappedXmlString, "text/xml");
 
   return result.documentElement.nodeName == "parsererror" ? false : true;
   // TODO: FILL ME
