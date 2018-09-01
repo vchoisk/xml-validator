@@ -48,6 +48,8 @@ exports.isValidXML = xmlString => {
   }
 
   const recurseNode = (node, parentNode, depth) => {
+    let result = true;
+
     for (let i = 0; i < node.childNodes.length; i++) {
       if (depth > 2) {
         //Case more that 2 depth deep
@@ -62,11 +64,11 @@ exports.isValidXML = xmlString => {
         //Case same tage consecutive
         return false;
       } else {
-        return recurseNode(node.childNodes[i], node, depth + 1);
+        result = result && recurseNode(node.childNodes[i], node, depth + 1);
       }
     }
 
-    return true;
+    return result;
   };
 
   const equalTag = (one, two) => one.nodeName === two.nodeName;
