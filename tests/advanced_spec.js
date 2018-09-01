@@ -13,6 +13,10 @@ describe("advanced validator test", () => {
     ).toBeTruthy();
   });
 
+  it("should return true for an xml with none consecutive node with same tag", () => {
+    expect(isValidXML("<a/><b/><a/><b/>")).toBeTruthy();
+  });
+
   it("should return false for an empty string", () => {
     expect(isValidXML("")).toBeFalsy();
   });
@@ -22,6 +26,7 @@ describe("advanced validator test", () => {
   });
 
   it("should return false for non-string input", () => {
+    expect(isValidXML()).toBeFalsy();
     expect(isValidXML(123)).toBeFalsy();
     expect(isValidXML(123.1)).toBeFalsy();
     expect(isValidXML(null)).toBeFalsy();
