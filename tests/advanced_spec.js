@@ -13,11 +13,24 @@ describe("advanced validator test", () => {
     ).toBeTruthy();
   });
 
+  it("should return false for an empty string", () => {
+    expect(isValidXML("")).toBeFalsy();
+  });
+
+  it("should return false for an random string", () => {
+    expect(isValidXML("dsaf{{L<PL<KLLL@!#12")).toBeFalsy();
+  });
+
+  it("should return false for non-string input", () => {
+    expect(isValidXML(123)).toBeFalsy();
+    expect(isValidXML(null)).toBeFalsy();
+  });
+
   it("should return false for an xml with child nodes, one of which has same tag as its parent", () => {
     expect(isValidXML("<a><d/><a/></a>")).toBeFalsy();
   });
 
-  it("should return false for an xml with one of the top level node with depth more than 2", () => {
+  it("should return false for an xml with one of the non-first top level node with depth more than 2", () => {
     expect(isValidXML("<b/><a><b><c/><d/></b></b><c/>")).toBeFalsy();
   });
 });
