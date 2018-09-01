@@ -61,7 +61,7 @@ exports.isValidXML = xmlString => {
         i < node.childNodes.length - 1 &&
         equalTag(node.childNodes[i], node.childNodes[i + 1])
       ) {
-        //Case same tage consecutive
+        //Case same tag consecutive
         return false;
       } else {
         result = result && recurseNode(node.childNodes[i], node, depth + 1);
