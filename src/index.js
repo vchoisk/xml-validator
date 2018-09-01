@@ -29,12 +29,6 @@ DO NOT MODIFY
 @return boolean;
 */
 exports.isValidXML = xmlString => {
-  if (xmlString === "<a><a></a></a>") {
-    console.log(
-      "==========================current case========================="
-    );
-  }
-
   if (xmlString.length === 0) {
     // Case where xml string is empty string
     return false;
@@ -54,18 +48,22 @@ exports.isValidXML = xmlString => {
   }
 
   const recurseNode = (node, parentNode, depth) => {
-    console.log("calls recurse on: ", node.nodeName, node.childNodes.length);
     for (let i = 0; i < node.childNodes.length; i++) {
-      console.log("nodenames: ", parentNode.nodeName, node.nodeName);
       if (depth > 2) {
         //Case more that 2 depth deep
         return false;
-      }
-      if (equalTag(parentNode, node)) {
+      } else if (equalTag(node.childNodes[i], node)) {
+        //Case contain same tag
         return false;
+      } else if (
+        i < node.childNodes.length - 1 &&
+        equalTag(node.childNodes[i], node.childNodes[i + 1])
+      ) {
+        //Case same tage consecutive
+        return false;
+      } else {
+        return recurseNode(node.childNodes[i], node, depth + 1);
       }
-
-      return recurseNode(node.childNodes[i], node, depth + 1);
     }
 
     return true;
