@@ -30,8 +30,20 @@ DO NOT MODIFY
 */
 exports.isValidXML = xmlString => {
   if (xmlString.length === 0) {
+    // Case where xml string is empty string
     return false;
   }
-  return true;
+
+  // Initialize xml string parser
+  const parser = new DOMParser();
+  // Store returned xml document as result
+  const result = parser.parseFromString(xmlString, "text/xml");
+  console.log(
+    result.documentElement.nodeName == "parsererror"
+      ? "error while parsing"
+      : result.documentElement.nodeName
+  );
+
+  return result.documentElement.nodeName == "parsererror" ? false : true;
   // TODO: FILL ME
 };
